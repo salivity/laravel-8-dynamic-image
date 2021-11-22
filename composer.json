@@ -1,0 +1,33 @@
+{
+    "name": "salivity/laravel-8-package-template",
+    "description": "",
+    "keywords": [],
+    "homepage": "",
+    "license": "MIT",
+    "authors": [
+        {
+          "name": "David Clews",
+          "email": "email@davidclews.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.3.0",
+        "laravel/framework": "8.*"
+    },
+    "autoload": {
+        "psr-4": {
+          "Salivity\\PackageTemplate\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Salivity\\PackageTemplate\\Providers\\PackageTemplateServiceProvider"
+            ],
+            "aliases": {
+                "PackageTemplate": "Salivity\\PackageTemplate\\Facade\\PackageTemplateFacade"
+            }
+        }
+    }
+}
