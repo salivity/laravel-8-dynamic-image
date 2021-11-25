@@ -10,6 +10,7 @@ You can not change the filetype with this package.
 
 ## JSON Options Schema
 
+```
 {
     "key": string, 
     "maintain_aspect_ratio": boolean, 
@@ -21,11 +22,14 @@ You can not change the filetype with this package.
     "filter_edge_detect": boolean,
     "filter_emboss": boolean
 }
+```
 
 ## Required Published Files
 
+```
 php artisan vendor:publish --provider="Salivity\Laravel8DynamicImage\Providers\DynamicImageServiceProvider" --force --tag="config"
 php artisan vendor:publish --provider="Salivity\Laravel8DynamicImage\Providers\DynamicImageServiceProvider" --force --tag="lang"
+```
 
 ## Cache
 
