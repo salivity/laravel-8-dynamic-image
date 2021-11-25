@@ -1,25 +1,25 @@
 <?php
 
-namespace Salivity\PackageTemplate\Commands;
+namespace Salivity\Laravel8DynamicImage\Commands;
 
 use Illuminate\Console\Command;
 
 
-class TestCommand extends Command
+class DynamicImageCacheSizeCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'test:command';
+    protected $signature = 'dynamic_image:cache_size';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Simple test to see if the commands are working in a package';
+    protected $description = '';
 
     /**
      * Create a new command instance.

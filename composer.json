@@ -1,5 +1,5 @@
 {
-    "name": "salivity/laravel-8-package-template",
+    "name": "salivity/laravel-8-dynamic-image",
     "description": "",
     "keywords": [],
     "homepage": "",
@@ -11,23 +11,19 @@
         }
     ],
     "require": {
-        "php": ">=7.3.0",
-        "laravel/framework": "8.*"
+        "php": ">=7.3.0"
     },
     "autoload": {
         "psr-4": {
-          "Salivity\\PackageTemplate\\": "src/"
+          "Salivity\\Laravel8DynamicImage\\": "src/"
         }
     },
     "minimum-stability": "dev",
     "extra": {
         "laravel": {
             "providers": [
-                "Salivity\\PackageTemplate\\Providers\\PackageTemplateServiceProvider"
-            ],
-            "aliases": {
-                "PackageTemplate": "Salivity\\PackageTemplate\\Facade\\PackageTemplateFacade"
-            }
+                "Salivity\\Laravel8DynamicImage\\Providers\\DynamicImageServiceProvider"
+            ]
         }
     }
 }
