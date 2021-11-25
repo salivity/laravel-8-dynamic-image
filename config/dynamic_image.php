@@ -56,8 +56,35 @@ return [
      * cache
      * 
      */
-    "cache_item_size" => 100
+    "cache_item_size" => 100,
     
+    /**
+     * watermark
+     */
+    "watermark_enabled" => TRUE,
+    
+    "watermark_image" => "logo.png", // must be a png file located in the watermark folder    
+    
+    /**
+     * x and y order
+     * 
+     * 9 possible positions
+     * 
+     * 
+     * left_top
+     * left_center
+     * left_bottom
+     * 
+     * top_center
+     * center_center
+     * bottom_center
+     * 
+     * right_top
+     * right_center
+     * right_bottom
+     */
+    "watermark_position" => "right_bottom",
+    "watermark_percentage" => 50, // the amount of scale relative to the destination width and height
     
     
 ];

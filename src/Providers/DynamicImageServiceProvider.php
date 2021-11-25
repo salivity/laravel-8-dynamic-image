@@ -68,7 +68,9 @@ class DynamicImageServiceProvider extends ServiceProvider {
             $this->commands([
                 \Salivity\Laravel8DynamicImage\Commands\DynamicImageCacheCpuCreditsCommand::class,
                 \Salivity\Laravel8DynamicImage\Commands\DynamicImageClearCpuCreditCacheCommand::class,
-                \Salivity\Laravel8DynamicImage\Commands\DynamicImageCreateLocalFoldersCommand::class
+                \Salivity\Laravel8DynamicImage\Commands\DynamicImageCreateLocalFoldersCommand::class,
+                \Salivity\Laravel8DynamicImage\Commands\DynamicImageCacheSizeCommand::class,
+                \Salivity\Laravel8DynamicImage\Commands\DynamicImageCacheClearCommand::class
             ]);
         }
         

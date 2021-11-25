@@ -5,21 +5,21 @@ namespace Salivity\Laravel8DynamicImage\Commands;
 use Illuminate\Console\Command;
 
 
-class DynamicImageCacheCpuCreditsCommand extends Command
+class DynamicImageCacheClearCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'dynamic_image:cache_cpu_credits';
+    protected $signature = 'dynamic_image:cache_clear';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Merges CPU Credit Entries for an optimal user experience.';
+    protected $description = 'Empties the package cache folder.';
 
     /**
      * Create a new command instance.
@@ -40,8 +40,7 @@ class DynamicImageCacheCpuCreditsCommand extends Command
      */
     public function handle(\Salivity\Laravel8DynamicImage\DynamicImage $dynamicImage)
     {
-        $this->info("Caching CPU Credits");
         
-        $dynamicImage->cacheCpuCredits();
+        $this->info("{$dynamicImage->clearCache()} item(s) have been removed from the dynamic image cache.");
     }
 }

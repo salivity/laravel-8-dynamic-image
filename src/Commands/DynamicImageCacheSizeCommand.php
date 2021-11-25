@@ -37,8 +37,8 @@ class DynamicImageCacheSizeCommand extends Command
      * @param  \App\Support\DripEmailer  $drip
      * @return mixed
      */
-    public function handle()
+    public function handle(\Salivity\Laravel8DynamicImage\DynamicImage $dynamicImage)
     {
-        $this->info("working");
+        $this->info("There are {$dynamicImage->countCacheSize()} image(s) in the cache.");
     }
 }

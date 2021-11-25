@@ -111,6 +111,25 @@ class DynamicImage  {
         Models\DynamicImageCpuCredit::select("id")->where("created_at", "<", \Carbon\Carbon::now()->subMinutes(10))->delete();
     }
     
+    /**
+     * clearCache
+     * 
+     * removes all the files in the images cache folder
+     * 
+     * @returns {integer}
+     */
+    public function clearCache(){
+        $count = 0;
+        foreach (new \DirectoryIterator(storage_path("packages/dynamic_image/cache/")) as $fileInfo) {
+            if(!$fileInfo->isDot()) {
+                unlink($fileInfo->getPathname());
+                $count++;
+            }
+        }
+        
+        return $count;
+    }
+    
     
     
     /**
@@ -500,7 +519,7 @@ class DynamicImage  {
      * 
      * @param {array} $options
      */
-    public function scaleImageBySize($options){
+    public function processImage($options){
         
         
         if(
@@ -551,6 +570,8 @@ class DynamicImage  {
                 
                 // apply image filters here
                 $this->applyImageFilters($options);
+                
+                $this->applyWatermark($options);
         
             }else{
 
@@ -580,6 +601,8 @@ class DynamicImage  {
                 
                 // apply image filters here
                 $this->applyImageFilters($options);
+                
+                $this->applyWatermark($options);
 
             }
             
@@ -589,6 +612,81 @@ class DynamicImage  {
         $this->cacheImage($options);        
         
         
+    }
+    
+    /**
+     * applyWatermark
+     * 
+     * @param {array} $options
+     */
+    public function applyWatermark(array $options){
+        
+        
+        if(config("dynamic_image.watermark_enabled") === TRUE){
+
+
+            $watermarkWidth = $options["width"] / 100 * config("dynamic_image.watermark_percentage");
+            $watermarkHeight = $options["height"] / 100 * config("dynamic_image.watermark_percentage");
+
+            $watermarkFilename = config('dynamic_image.watermark_image');
+            $watermarkImage = imagecreatefrompng(storage_path("packages/dynamic_image/watermark/{$watermarkFilename}"));
+
+            $targetWatermarkX = 0;
+            $targetWatermarkY = 0;
+
+            // calculate the possible 9 positions
+            switch(config("dynamic_image.watermark_position")){
+                case "left_top":
+                    $targetWatermarkX = 0;
+                    $targetWatermarkY = 0;
+                    break;
+                case "left_center":
+                    $targetWatermarkX = 0;
+                    $targetWatermarkY = (($options["height"] / 2) - ($watermarkHeight / 2));
+                    break;
+                case "left_bottom":
+                    $targetWatermarkX = 0;
+                    $targetWatermarkY = $options["height"] - $watermarkHeight;
+                    break;
+                case "top_center":
+                    $targetWatermarkX = (($options["width"] / 2) - ($watermarkWidth / 2));
+                    $targetWatermarkY = 0;
+                    break;
+                case "center_center":
+                    $targetWatermarkX = (($options["width"] / 2) - ($watermarkWidth / 2));
+                    $targetWatermarkY = (($options["height"] / 2) - ($watermarkHeight / 2));
+                    break;
+                case "bottom_center":
+                    $targetWatermarkX = (($options["width"] / 2) - ($watermarkWidth / 2));
+                    $targetWatermarkY = $options["height"] - $watermarkHeight;
+                    break;
+                case "right_top":
+                    $targetWatermarkX = $options["width"] - $watermarkWidth;
+                    $targetWatermarkY = 0;
+                    break;
+                case "right_center":
+                    $targetWatermarkX = $options["width"] - $watermarkWidth;
+                    $targetWatermarkY = (($options["height"] / 2) - ($watermarkHeight / 2));
+                    break;
+                case "right_bottom":
+                    $targetWatermarkX = $options["width"] - $watermarkWidth;
+                    $targetWatermarkY = $options["height"] - $watermarkHeight;
+                    break;
+            }
+
+            // resample and appply water mark
+            imagecopyresampled(
+                $this->_destinationImage,
+                $watermarkImage, 
+                $targetWatermarkX, 
+                $targetWatermarkY, 
+                0, 
+                0, 
+                $watermarkWidth, 
+                $watermarkHeight, 
+                imagesx($watermarkImage), 
+                imagesy($watermarkImage));
+        }
     }
     
     /**
@@ -614,9 +712,8 @@ class DynamicImage  {
         $this->calculateCpuCredits($sourceImage, $options);
         
         // scale first for performance
-        $this->scaleImageBySize($options);
+        $this->processImage($options);
         
-        // TODO add watermark
         
     }
     

@@ -10,6 +10,8 @@ You can not change the filetype with this package.
 
 ## JSON Options Schema
 
+Post the following json encoded data to ```api/v1/dynamic_image/get_image_by_flysystem```
+
 ```
 {
     "key": string, 
@@ -24,7 +26,7 @@ You can not change the filetype with this package.
 }
 ```
 
-## Required Published Files
+## Required Published Files/Directories
 
 ```
 php artisan vendor:publish --provider="Salivity\Laravel8DynamicImage\Providers\DynamicImageServiceProvider" --force --tag="config"
@@ -40,12 +42,15 @@ you must create the directories in your laravel project by running the command
 
 ## CPU Credits
 
-To control te amount of system resources used in the Laravel Project this package uses a Credit system where each a every
-system resource is calculated to produce a throtling effect. For instance 1000 thumbnail images would consume far
+To control the amount of system resources used in the Laravel Project this package uses a Credit system where each and every
+system resource is calculated to produce a throttling effect. For instance 1000 thumbnail images would consume far
 less CPU credits than 100 large images. A decent amount of CPU credits should be calculate once the front end has been 
 completed.
 
 ## Config
 
+Some settings such as watermark do not effect the cache and may show old images, you must reset the cache for this. by running 
+the artisan command 
+ 
 Take a look at the config file directly for more information.
 
