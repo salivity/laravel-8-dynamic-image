@@ -120,7 +120,7 @@ class DynamicImage  {
      */
     public function clearCache(){
         $count = 0;
-        foreach (new \DirectoryIterator(storage_path("packages/dynamic_image/cache/")) as $fileInfo) {
+        foreach (new \DirectoryIterator(storage_path("app/packages/dynamic_image/cache/")) as $fileInfo) {
             if(!$fileInfo->isDot()) {
                 unlink($fileInfo->getPathname());
                 $count++;
@@ -279,10 +279,10 @@ class DynamicImage  {
     public function createPackageFolders(){
         
         // supress errors as common folder for all packages
-        @mkdir(storage_path("packages/"));
-        @mkdir(storage_path("packages/dynamic_image/"));
-        @mkdir(storage_path("packages/dynamic_image/cache"));
-        @mkdir(storage_path("packages/dynamic_image/watermark"));
+        @mkdir(storage_path("app/packages/"));
+        @mkdir(storage_path("app/packages/dynamic_image/"));
+        @mkdir(storage_path("app/packages/dynamic_image/cache"));
+        @mkdir(storage_path("app/packages/dynamic_image/watermark"));
 
     }
     
@@ -370,7 +370,7 @@ class DynamicImage  {
         
         $cacheFilename = $this->hashOptions($options);
         
-        if(file_exists(storage_path("packages/dynamic_image/cache/{$cacheFilename}"))){
+        if(file_exists(storage_path("app/packages/dynamic_image/cache/{$cacheFilename}"))){
             return TRUE;
         }else{
             return FALSE;
@@ -388,7 +388,7 @@ class DynamicImage  {
         if(
                 $this->checkInCache($options) === FALSE AND 
                 $this->countCacheSize() < config("dynamic_image.cache_item_size")){
-            $this->writeBlob(storage_path("packages/dynamic_image/cache/{$cacheFilename}"));
+            $this->writeBlob(storage_path("app/packages/dynamic_image/cache/{$cacheFilename}"));
         }
     }
     
@@ -403,8 +403,8 @@ class DynamicImage  {
             // create image object from file
             header("Content-type: {$this->_mimetype}");
         
-            $myfile = fopen(storage_path("packages/dynamic_image/cache/{$cacheFilename}"), "r") or die("Unable to open file!");
-            echo fread($myfile,filesize(storage_path("packages/dynamic_image/cache/{$cacheFilename}")));
+            $myfile = fopen(storage_path("app/packages/dynamic_image/cache/{$cacheFilename}"), "r") or die("Unable to open file!");
+            echo fread($myfile,filesize(storage_path("app/packages/dynamic_image/cache/{$cacheFilename}")));
             fclose($myfile);
             die;
         }
@@ -416,7 +416,7 @@ class DynamicImage  {
      * @return {integer}
      */
     public function countCacheSize(){
-        $fi = new \FilesystemIterator(storage_path("packages/dynamic_image/cache/"), \FilesystemIterator::SKIP_DOTS);
+        $fi = new \FilesystemIterator(storage_path("app/packages/dynamic_image/cache/"), \FilesystemIterator::SKIP_DOTS);
         return iterator_count($fi);
     }
 
@@ -629,7 +629,7 @@ class DynamicImage  {
             $watermarkHeight = $options["height"] / 100 * config("dynamic_image.watermark_percentage");
 
             $watermarkFilename = config('dynamic_image.watermark_image');
-            $watermarkImage = imagecreatefrompng(storage_path("packages/dynamic_image/watermark/{$watermarkFilename}"));
+            $watermarkImage = imagecreatefrompng(storage_path("app/packages/dynamic_image/watermark/{$watermarkFilename}"));
 
             $targetWatermarkX = 0;
             $targetWatermarkY = 0;
@@ -714,10 +714,12 @@ class DynamicImage  {
         // scale first for performance
         $this->processImage($options);
         
+        // output to the client
+        $dynamicImage->returnBlob();
         
     }
     
-    /**
+   /**
     * calculate_aspect_ratio
     * 
     * Manipulate width and Height while maintaining aspect ratio

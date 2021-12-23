@@ -50,7 +50,10 @@ completed.
 ## Config
 
 Some settings such as watermark do not effect the cache and may show old images, you must reset the cache for this. by running 
-the artisan command 
+the artisan command ```php artisan dynamic_image:cache_clear```
  
 Take a look at the config file directly for more information.
 
+## Future Plans
+
+Add the ability to use the laravel-8-cloud-storage package for source of images

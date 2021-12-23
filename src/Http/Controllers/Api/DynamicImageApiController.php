@@ -46,7 +46,7 @@ class DynamicImageApiController extends Controller{
         
         $dynamicImage->processByFlysystem($request->all());
         
-        $dynamicImage->returnBlob();
+        
         
     }
     
